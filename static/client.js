@@ -8,8 +8,16 @@ const nextButton = document.getElementById('nextButton');
 const step = 10
 
 function adjustVol(amount, direction) {
-    console.log('adjust volume: ', amount);
     fetch('/vol', {method: 'POST', body: JSON.stringify({direction: direction, amount: amount})})
+        .then(function(res) {
+        })
+        .catch(function(error) {
+            console.warn('error', error)
+        })
+}
+
+function playCommand(playerArg) {
+    fetch('/play', {method: 'POST', body: JSON.stringify({command: playerArg})})
         .then(function(res) {
         })
         .catch(function(error) {
@@ -26,46 +34,13 @@ upButton.addEventListener('click', function(e) {
 });
 
 prevButton.addEventListener('click', function(e) {
-    console.log('previous button was clicked');
-    fetch('/previous', {method: 'POST'})
-        .then(function(res) {
-            if(res.ok) {
-                console.log('click was Good');
-                return;
-            }
-            throw new Error('Request failed.')
-        })
-        .catch(function(error) {
-            console.log(error)
-        })
+    playCommand("previous")
 });
 
 playButton.addEventListener('click', function(e) {
-    console.log('play button was clicked');
-    fetch('/playPause', {method: 'POST'})
-        .then(function(res) {
-            if(res.ok) {
-                console.log('click was Good');
-                return;
-            }
-            throw new Error('Request failed.')
-        })
-        .catch(function(error) {
-            console.log(error)
-        })
+    playCommand("play-pause")
 });
 
 nextButton.addEventListener('click', function(e) {
-    console.log('next button was clicked');
-    fetch('/next', {method: 'POST'})
-        .then(function(res) {
-            if(res.ok) {
-                console.log('click was Good');
-                return;
-            }
-            throw new Error('Request failed.')
-        })
-        .catch(function(error) {
-            console.log(error)
-        })
+    playCommand("next")
 });
