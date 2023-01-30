@@ -17,26 +17,29 @@
             integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
             crossorigin="anonymous">
   </head>
-  <body class="d-flex flex-column h-100">
-  <main class="flex-shrink-0">
-    <div id="volumeControl" class="ctrContainer">
-      <button class="btn volume" id="volDownButton">
-        <i class="fas fa-volume-down"></i>
-      </button>
-      <button class="btn volume" id="volUpButton">
-        <i class="fas fa-volume-up"></i>
-      </button>
-    </div>
-    <div id="playerControl" class="ctrContainer">
-      <button class="btn playerCtl" id="previousButton">
-        <i class="fas fa-backward"></i>
-      </button>
-      <button class="btn playerCtl" id="playPauseButton">
-        <i class="fas fa-play"></i>
-      </button>
-      <button class="btn playerCtl" id="nextButton">
-        <i class="fas fa-forward"></i>
-      </button>
+  <body class="bg-dark d-flex flex-column h-100">
+  <main class="pt-5 flex-shrink-0">
+    <div class="text-center">
+      <div id="volumeControl" class="ctrContainer p-5 d-flex justify-content-around">
+        <button class="btn volume bg-primary p-4 rounded-circle" id="volDownButton">
+          <i class="fas fa-volume-down fa-2xl"></i>
+        </button>
+        <button class="btn volume bg-primary p-4 rounded-circle" id="volUpButton">
+          <i class="fas fa-volume-up fa-2xl"></i>
+        </button>
+      </div>
+      <div id="playerControl" class="ctrContainer p-5 d-flex justify-content-around">
+        <button class="btn playerCtl bg-primary p-4 rounded-circle" id="previousButton">
+          <i class="fas fa-backward fa-2xl"></i>
+        </button>
+        <button class="btn playerCtl bg-primary p-4 rounded-circle" id="playPauseButton">
+          <i class="fas fa-play fa-2xl"></i>
+        </button>
+        <button class="btn playerCtl bg-primary p-4 rounded-circle" id="nextButton">
+          <i class="fas fa-forward fa-2xl"></i>
+        </button>
+      </div>
+
     </div>
   </main>
   <script src="client.js"></script>
