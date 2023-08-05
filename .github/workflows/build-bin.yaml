@@ -6,7 +6,7 @@ permissions:
   packages: write
 
 env:
-  cmd_dir: cmd/remoteControl
+  cmd_dir: ./cmd/remoteControl
 
 jobs:
   build:
