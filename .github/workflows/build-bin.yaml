@@ -1,27 +1,30 @@
 # build-bin
-
-on:
-  release:
-    types: [created]
-  workflow_dispatch:
-  push:
+on: [push]
 
 permissions:
   contents: write
   packages: write
 
+env:
+  cmd_dir: cmd/remoteControl
+
 jobs:
-  release-linux-amd64:
-    name: release linux/amd64
+  build:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        go-version: [1.20]
+        goos: [linux]
+        goarch: [amd64]
+
     steps:
-      - name: checkout
+      - name: Checkout
         uses: actions/checkout@v3
 
-      - uses: wangyoucao577/go-release-action@v1
+      - name: Setup Go ${{ matrix.go-version }}
+        uses: actions/setup-go@v4
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          project_path: cmd/remoteControl
-          binary_name: "remoteControl"
-          goos: linux
-          goarch: amd64
+          go-version: ${{ matrix.go-version }}
+
+      - name: Build binary
+        run: go build ${{ env.cmd_dir }}
