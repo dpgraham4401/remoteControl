@@ -1,9 +1,11 @@
 package main
 
 import (
+	"embed"
 	"encoding/json"
 	"fmt"
 	"io"
+	"io/fs"
 	"log"
 	"net/http"
 	"os/exec"
@@ -14,17 +16,28 @@ const setSinkVolume = "set-sink-volume"
 const upStep = "+10%"
 const downStep = "-10%"
 
+//go:embed static/*
+var static embed.FS
+
 func main() {
 
-	fs := http.FileServer(http.Dir("static"))
-	mux := http.NewServeMux()
+	// strip the "static" prefix from the file server
+	fsDir, err := fs.Sub(static, "static")
+	if err != nil {
+		log.Fatal("error getting static content", err)
+	}
+	// Create file server
+	staticFileServer := http.FileServer(http.FS(fsDir))
 
 	// Routing
-	mux.Handle("/", fs)
+	mux := http.NewServeMux()
+	mux.Handle("/", staticFileServer)
 	mux.HandleFunc("/vol", volHandler)
 	mux.HandleFunc("/play", playHandler)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	// Start server
+	log.Println("Listening on :8080...")
+	log.Fatal(http.ListenAndServe("localhost:8080", mux))
 
 }
 
@@ -50,16 +63,17 @@ func volHandler(w http.ResponseWriter, r *http.Request) {
 	err = json.Unmarshal(b, &volume)
 	if err != nil {
 		http.Error(w, "error", http.StatusInternalServerError)
+		log.Println("malformed json")
 		return
 	}
 	if volume.Direction == "down" {
 		cmd := exec.Command(pactl, "--", setSinkVolume, "0", downStep)
 		stdout, _ := cmd.Output()
-		fmt.Println(string(stdout))
+		fmt.Println("volume down: ", string(stdout))
 	} else if volume.Direction == "up" {
 		cmd := exec.Command(pactl, "--", setSinkVolume, "0", upStep)
 		stdout, _ := cmd.Output()
-		fmt.Println(string(stdout))
+		fmt.Println("volume up: ", string(stdout))
 	}
 	fmt.Println(&volume)
 }
