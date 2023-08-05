@@ -1,4 +1,4 @@
-# build-bin
+# Test
 on: [push]
 
 permissions:
@@ -28,3 +28,6 @@ jobs:
 
       - name: Build binary
         run: go build ${{ env.cmd_dir }}
+
+      - name: Run Tests
+        run: go test ./...
