@@ -15,9 +15,13 @@ jobs:
     name: release linux/amd64
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - name: checkout
+        uses: actions/checkout@v3
+
       - uses: wangyoucao577/go-release-action@v1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          project_path: cmd/remoteControl
+          binary_name: "remoteControl"
           goos: linux
           goarch: amd64
