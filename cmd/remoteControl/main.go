@@ -37,7 +37,7 @@ func main() {
 
 	// Start server
 	log.Println("Listening on :8080...")
-	log.Fatal(http.ListenAndServe("localhost:8080", mux))
+	log.Fatal(http.ListenAndServe(":8080", mux))
 
 }
 
